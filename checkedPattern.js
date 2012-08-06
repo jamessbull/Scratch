@@ -1,8 +1,7 @@
-jim.checkedPattern = function (rows, firstColour, secondColour) {
+jim.checkedPattern = function (element, rows, firstColour, secondColour) {
 	var colourOne = firstColour, 
 		colourTwo = secondColour, 
 		tempColour,
-		element = $('#mainCanvas')[0],
 		currentX,
 		canvas = element.getContext('2d');
 
@@ -13,17 +12,28 @@ jim.checkedPattern = function (rows, firstColour, secondColour) {
 		colourOne = colourTwo;
 		colourTwo = tempColour;
 	};
+	var checkWidth = element.width / rows,
+		startingPoints = jim.list.range(10, rows, checkWidth);
+	var rectangles = [];
+	
+	$.each(startingPoints, function (i, startingPointX) {
+		$.each(startingPoints, function (h, startingPointY) {
+			rectangles.push(jim.rectangle.create(startingPointX, startingPointY, checkWidth, checkWidth, "#990999"));
+		});
+	});
 	
 	var draw = function () {
-		var checkWidth = element.width / rows,
-			startingPoints = jim.list.range(10, rows, checkWidth);
-					
-		$.each(startingPoints, function (i, startingPointX) {
-			$.each(startingPoints, function (h, startingPointY) {
-				jim.rectangle.create(startingPointX, startingPointY, checkWidth, checkWidth, currentColour(i+h)).draw(canvas);
-			});
+		$.each(rectangles, function (i, item) {
+			item.colour = currentColour(i);
+			item.draw(canvas);
 		});
 		swapColour();
+		console.log("after draw" + colourOne)	
 	};
-	return { draw : function () { setInterval(draw, 100); } };
+	return { 
+		draw : function () {
+			draw();
+			setInterval(draw, 1000); 
+		} 
+	};
 }

@@ -8,6 +8,7 @@
 	<meta name="author" content="James Bull">
 	<script src="canvas.js"></script>
 	<script src="checkedPattern.js"></script>
+	<script src="list.js"></script>
 	<script src="jquery1.7.js"></script>
 </head>
 <body>
@@ -16,7 +17,7 @@
 		
 	</canvas>
 	<script>
-		jim.checkedPattern(10,"#770000", "#FF1111").draw();
+		jim.checkedPattern($('#mainCanvas')[0], 11,"#770000", "#FF1111").draw();
 	</script>
 </body>
 </html>
