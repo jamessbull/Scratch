@@ -15,7 +15,7 @@
 </head>
 <body>
 	<H1>An example</H1>
-	<canvas id="mainCanvas" width="500" height="500">
+	<canvas id="mainCanvas" width="1000" height="1000">
 		
 	</canvas>
 	<script>
@@ -25,13 +25,13 @@
 		var green = jim.colour.create(0, 255, 0, 255);
 		var blue = jim.colour.create(0, 0, 255, 255);
 		
-		var greenCircle = jim.circle.create(25, canvas, green);
-		var blueCircle = jim.circle.create(25, canvas, blue);
+		var greenCircle = jim.circle.create(50, canvas, green);
+		var blueCircle = jim.circle.create(100, canvas, blue);
 		
 		greenCircle.draw(0,0);
-		blueCircle.draw(0, 50);
-		blueCircle.draw(50, 0);
-		greenCircle.draw(50, 50);
+		blueCircle.draw(0, 200);
+		blueCircle.draw(200, 0);
+		greenCircle.draw(200, 200);
 	</script>
 </body>
 </html>

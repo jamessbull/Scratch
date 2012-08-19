@@ -40,16 +40,17 @@ jim.circle = {
 				
 			};
 		var numberOfPixels = diameter * diameter;
-		var centre = numberOfPixels / 2;
+		var centre = function () {
+			return (Math.floor(diameter/2) * diameter) + Math.floor(diameter / 2)
+		};
 		
 		var indexToPoint = function ( index, length ) {
-			return index === 0 ? 0 : jim.point.create((index%length), Math.floor(index / length) )
+			return index === jim.point.create(0,0) ? 0 : jim.point.create((index%length), Math.floor(index / length) )
 		};
 				
 		var currentPixelsDistanceToCentre = function (index, length) {
 			var point1 = indexToPoint(index, length),
-				point2 = indexToPoint(centre, length);
-				console.log(jim.util.lengthBetween(point1, point2))
+				point2 = indexToPoint(centre(), length);
 			return jim.util.lengthBetween(point1, point2);
 		};
 
