@@ -1,18 +1,16 @@
-var jim = {};
-jim.rectangle = {
-	create: function (x, y, width, height, colour) {
-		var theColour = colour;
+jim.canvas = {
+	create: function (element) {
+		var context = element.getContext('2d');
+		
 		return {
-			x: x,
-			y: y,
-			width: width,
-			height:height,
-			colour: theColour,
-			draw: function (canvas) {
-				canvas.fillStyle = this.colour;
-				canvas.fillRect(x, y, width, height);
+			draw: function (shape) {
+				var output = context.createImageData(shape.width, shape.height);
+				$.each(shape.data, function (i, item) {output.data[i] = item });
+				context.putImageData(output,shape.x,shape.y);
 			}
-		}
+		};
 	}
-}
+};
+
+
 

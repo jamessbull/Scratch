@@ -2,7 +2,6 @@ jim.checkedPattern = function (element, rows, firstColour, secondColour) {
 	var colourOne = firstColour, 
 		colourTwo = secondColour, 
 		tempColour,
-		currentX,
 		canvas = element.getContext('2d');
 
 	var currentColour = function (row) { return row % 2 === 0 ? colourOne : colourTwo; };

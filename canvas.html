@@ -6,7 +6,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Canvas test</title>
 	<meta name="author" content="James Bull">
+	<script src="shapes.js"></script>
 	<script src="canvas.js"></script>
+	<script src="colour.js"></script>
 	<script src="checkedPattern.js"></script>
 	<script src="list.js"></script>
 	<script src="jquery1.7.js"></script>
@@ -17,7 +19,19 @@
 		
 	</canvas>
 	<script>
-		jim.checkedPattern($('#mainCanvas')[0], 11,"#770000", "#FF1111").draw();
+		//jim.checkedPattern($('#mainCanvas')[0], 11,"#770000", "#FF1111").draw();
+		var canvas = jim.canvas.create($('#mainCanvas')[0]);
+		
+		var green = jim.colour.create(0, 255, 0, 255);
+		var blue = jim.colour.create(0, 0, 255, 255);
+		
+		var greenCircle = jim.circle.create(25, canvas, green);
+		var blueCircle = jim.circle.create(25, canvas, blue);
+		
+		greenCircle.draw(0,0);
+		blueCircle.draw(0, 50);
+		blueCircle.draw(50, 0);
+		greenCircle.draw(50, 50);
 	</script>
 </body>
 </html>
