@@ -3,28 +3,46 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>checkedPattern.js</string>
+	<string>colour.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>canvas.html</string>
 			<key>lastUsed</key>
-			<date>2012-08-06T20:07:30Z</date>
+			<date>2012-08-26T11:11:36Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>list.js</string>
+			<key>lastUsed</key>
+			<date>2012-08-08T20:22:05Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>shapes.js</string>
+			<key>lastUsed</key>
+			<date>2012-08-26T11:38:49Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>colour.js</string>
+			<key>lastUsed</key>
+			<date>2012-08-26T11:38:49Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>canvas.js</string>
 			<key>lastUsed</key>
-			<date>2012-08-06T20:07:32Z</date>
+			<date>2012-08-26T11:38:01Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>checkedPattern.js</string>
 			<key>lastUsed</key>
-			<date>2012-08-06T20:07:32Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2012-08-08T19:30:22Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -36,9 +54,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>9</integer>
+				<integer>29</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -50,9 +68,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>49</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>8</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -64,20 +82,81 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>28</integer>
+				<integer>4</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>4</integer>
+			</dict>
+		</dict>
+		<key>colour.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>47</integer>
+				<key>line</key>
+				<integer>13</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>list.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>shapes.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>50</integer>
+				<key>line</key>
+				<integer>64</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>41</integer>
+		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>canvas.html</string>
 		<string>canvas.js</string>
+		<string>colour.js</string>
+		<string>shapes.js</string>
+		<string>list.js</string>
 		<string>checkedPattern.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>

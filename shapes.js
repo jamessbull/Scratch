@@ -56,7 +56,16 @@ jim.circle = {
 
 		var dataElements = jim.list.range(0, numberOfPixels, 1);
 		var black = jim.colour.create(0,0,0,0);
-		$.each(dataElements, function (index) { 
+		$.each(dataElements, function (index) {
+			var distanceFromCentre = currentPixelsDistanceToCentre(index, diameter);
+			var distAsPercent = (100 / (diameter / 2)) * distanceFromCentre;
+			// At 0 % 255, 255, 255, 255
+			// At 50% 0,0,255,255
+			// At 100% 
+			colour.setColourPercent("blue", 100);
+			//colour.setColourPercent("alpha", 100 - distAsPercent);
+			colour.setColourPercent("red", distAsPercent);
+			colour.setColourPercent("green", distAsPercent);
 			if(currentPixelsDistanceToCentre(index, diameter) > (diameter/2)) {
 				addPixel(data, black)
 			}
