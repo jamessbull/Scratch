@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>colour.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -29,14 +27,14 @@
 			<string>colour.js</string>
 			<key>lastUsed</key>
 			<date>2012-08-26T11:38:49Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>canvas.js</string>
 			<key>lastUsed</key>
 			<date>2012-08-26T11:38:01Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -152,16 +150,11 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>canvas.html</string>
-		<string>canvas.js</string>
-		<string>colour.js</string>
-		<string>shapes.js</string>
-		<string>list.js</string>
 		<string>checkedPattern.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{237, 148}, {1264, 880}}</string>
+	<string>{{313, -152}, {1264, 880}}</string>
 </dict>
 </plist>

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Canvas test</title>
+	<meta name="author" content="James Bull">
+	<script src="../shapes/shapes.js"></script>
+	<script src="../src/jim.js"></script>
+		<script src="../src/gradient.js"></script>
+	<script src="../util/canvas.js"></script>
+	<script src="../shapes/colour.js"></script>
+	<script src="../checkedPattern.js"></script>
+	<script src="../util/list.js"></script>
+	<script src="../lib/jquery1.7.js"></script>
+</head>
+<body>
+	<H1>An example</H1>
+	<canvas id="mainCanvas" width="500" height="500">
+		
+	</canvas>
+	<script>
+		//jim.checkedPattern($('#mainCanvas')[0], 11,"#770000", "#FF1111").draw();
+		var canvas = jim.canvas.create($('#mainCanvas')[0]);
+		
+		var green = jim.colour.create(0, 255, 0, 255);
+		var blue = jim.colour.create(0, 0, 255, 255);
+		var background = jim.rectangle.create(0,0,500,500);
+		background.draw(canvas);
+		
+		var greenCircle = jim.circle.create(50, canvas, green);
+		var blueCircle = jim.circle.create(100, canvas, blue);
+		
+		greenCircle.draw(0,0);
+		blueCircle.draw(0, 200);
+		blueCircle.draw(200, 0);
+		greenCircle.draw(200, 200);
+	</script>
+</body>
+</html>
