@@ -70,6 +70,28 @@ jim.circle = {
 			
 		});
 
+        var up = false;
+        var move = function (amount, start, self) {
+            if(up) {
+                self.y+=1;
+                if(self.y > start+amount ) { up = false;}
+            } else {
+                self.y-=1;
+                if((self.y < start )) {
+                    up = true;
+                }
+            }
+            canvas.draw(self);
+        };
+
+		animate = function (movementAmount) {
+		   var starty = this.y;
+		   var self = this;
+		   setInterval(function () {
+		        move(movementAmount, starty, self);
+		    }, 20);
+		};
+
 		return {
 			x:0,
 			y:0,
@@ -80,7 +102,8 @@ jim.circle = {
 				this.x=x;
 				this.y=y;
 				canvas.draw(this);
-			}
+			},
+			animate : animate
 		};
 	}
 };
