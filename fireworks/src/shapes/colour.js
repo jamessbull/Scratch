@@ -9,6 +9,10 @@ jim.colour.create = function (r, g, b, a) {
 		var newValue = (255/100) * percentage;
 		this[colour] = newValue;
 	};
+	var setLightness = function (percent) {
+		color.red = 2;
+	}
+	colour.seLightness = setLightness
 	colour.setColourPercent = setColourPercent;
 	return colour;
 }

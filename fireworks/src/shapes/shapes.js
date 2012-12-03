@@ -60,6 +60,7 @@ jim.circle = {
 			colour.setColourPercent("blue", 0);
 			colour.setColourPercent("alpha", 100);
 
+			
 			if(currentPixelsDistanceToCentre(index, diameter) > (diameter/2)) {
 				addPixel(data, black)
 			}
