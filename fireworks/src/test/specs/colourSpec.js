@@ -8,7 +8,7 @@ describe("A color should be", function() {
 		
 		var colour = jim.colour.create(red, green, blue, 255);
 		colour.setLightness(100)
-		expect(colour.red).toBe(false);
+		expect(colour.red).toBe(2);
   	});
 
 });

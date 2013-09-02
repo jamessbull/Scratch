@@ -10,9 +10,9 @@ jim.colour.create = function (r, g, b, a) {
 		this[colour] = newValue;
 	};
 	var setLightness = function (percent) {
-		color.red = 2;
+		colour.red = 2;
 	}
-	colour.seLightness = setLightness
+	colour.setLightness = setLightness
 	colour.setColourPercent = setColourPercent;
 	return colour;
 }
