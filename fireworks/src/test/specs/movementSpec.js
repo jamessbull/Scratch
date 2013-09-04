@@ -14,10 +14,13 @@ describe("Physics and movement: ", function() {
 
 
     it("the first location given should be the starting location", function() {
-        var start = jim.movement.upAndDown.create(jim.point.create(0,0));
-        var result = start.nextPosition();
+        var point = jim.point.create;
+        var move = jim.movement.upAndDown.create;
+        var movement = move(point(0,0))
+        var result = movement.nextPosition();
         expect(result.x).toBe(0);
         expect(result.y).toBe(0);
+        var result2 = movement.nextPosition()
     });
 
     it("acceleration is calculated from force and mass", function() {
