@@ -3,14 +3,18 @@ namespace("jim.util.animation.animator");
 jim.util.animation.animator.create = function (element) {
    	var proceed = true;
     var animate = function (thing) {
-   		   var animateFunc = function () {
+        var lastTime = 0;
+   		   var animateFunc = function (timeStamp) {
+             var time_between_frames = timeStamp - lastTime;
+             lastTime = timeStamp;
              if(proceed) {
-                thing.update();
+                thing.update(time_between_frames);
                 window.webkitRequestAnimationFrame(animateFunc, element);
               }
            };
            proceed = true;
-   		   animateFunc();
+           lastTime = new Date().getTime()
+   		   animateFunc(lastTime);
    	};
     var stop = function (){ proceed = false };
    	return {

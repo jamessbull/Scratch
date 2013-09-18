@@ -11,6 +11,9 @@ jim.canvas = {
             onMouseDown: function (func) {
                 element.addEventListener("mousedown", func, false);
             },
+            onMouseUp: function (func) {
+                element.addEventListener("mouseup", func, false);
+            },
 			drawRect: function(x,y,width,height) {
 				context.fillStyle = '#000000';
 				context.fillRect(x, y, width, height);

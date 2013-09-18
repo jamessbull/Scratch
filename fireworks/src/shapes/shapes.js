@@ -21,7 +21,7 @@ jim.util = {
 };
 
 jim.circle = {
-	create: function (diameter, canvas, animator, colour) {
+	create: function (diameter, canvas, animator, colour, forceResolver) {
 		var data = [];
 
 		var	addPixel = function (data, colour) {
@@ -37,11 +37,12 @@ jim.circle = {
 		var centre = function () {
 			return (Math.floor(diameter/2) * diameter) + Math.floor(diameter / 2)
 		};
-
-        // I want a circle to exist for a certain amount of time then not be visible.
-        // I would like to be able to click to have the circle become visible again.
-        // So firs job is to have a function which can make the circle assign itself to null and remove it from the animation
-        // Have this happen after a certain amount of time using setTimeout
+        //1,1,1,1,1,1 index od centre is 13 pixels in floor d on2 is 2 *5 =10 + 2 = 12
+        //1,1,1,1,1,1    maybe centre above shouls be ceiling
+        //1,1,1,1,1,1
+        //1,1,1,0,1,1
+        //1,1,1,1,1,1
+        //1,1,1,1,1,1
         var clear = function () {
             canvas.clearShape(this);
         }
@@ -57,10 +58,8 @@ jim.circle = {
 		};
 
 		var dataElements = jim.list.range(0, numberOfPixels, 1);
-		var black = jim.colour.create(0,0,0,255);
 		var fullGradient = jim.gradient.create(0,diameter/2);
 
-		var whitePercent=0;
 		$.each(dataElements, function (index) {
 			var distanceFromCentre = currentPixelsDistanceToCentre(index, diameter);
 			var distAsPercent = fullGradient.at(distanceFromCentre);
@@ -69,17 +68,9 @@ jim.circle = {
 			colour.setColourPercent("blue", 0);
 			colour.setColourPercent("alpha", 100);
 
-			
-			if(currentPixelsDistanceToCentre(index, diameter) > (diameter/2)) {
-				addPixel(data, black)
-			}
-			else {
-				addPixel(data, colour); 
-			}
+            addPixel(data, colour);
 			
 		});
-        var start = 0;
-        var up = false;
 
         var setPosition = function (x,y) {
             canvas.clearShape(this);
@@ -87,31 +78,18 @@ jim.circle = {
             this.y = y;
         };
 
-        var move = function (amount, start, self) {
-            canvas.clearShape(self);
-            if(up) {
-                self.y+=1;
-                if(self.y > start+amount ) { up = false;}
-            } else {
-                self.y-=1;
-                if((self.y < start )) {
-                    up = true;
-                }
-            }
-            canvas.draw(self);
+        var update = function(time) {
+          canvas.clearShape(this);
+          forceResolver.applyForce(this, time);
+          if(this.y>450) {
+              this.y = 450;
+              this.speed = 0;
+          }
+          canvas.draw(this);
         };
 
-        var updateFunc = function (amount, thing) {
-            return function () {
-               move(amount, start, thing);
-            };
-        };
-
-		animate = function (movementAmount) {
-		   var self = this;
-		   self.update = updateFunc(movementAmount, self);
-           animator.animate(self);
-
+		var animate = function () {
+           animator.animate(this);
 		};
 
 		return {
@@ -119,6 +97,8 @@ jim.circle = {
 			y:0,
 			width: diameter,
 			height: diameter,
+            mass: 4,
+            speed:0,
             clear: clear,
 			data: data,
 			draw: function (x, y) {
@@ -127,7 +107,46 @@ jim.circle = {
 				canvas.draw(this);
 			},
             setPosition : setPosition,
-			animate : animate
+            animate:animate,
+            update: update
 		};
 	}
 };
+
+
+// o.k. next things to have is to have more than one on screen
+// to have it so colours are transparent so circles don't interfere with each other
+// to have it so we can render circle in the correct place and detect a click inside it
+// to deal with horizontal motion also
+// to have a control on the screen to allow me to set the acceleration and gravity
+// goal is to show a firework which is most important for that?
+// multi on screen
+//then horizontal forces
+// then air resistance
+// the inputs to play with the values
+
+// so many things on screen
+// at the moment what happens?
+// i call animate on the circle
+// the circle calls animate on the animator and passes itself in
+// the animator calls update on the object and the requests another frame
+// the object updates itself and then calls draw on the canvas
+// O.K. Does a circle have a renderable? Yes. Passed in.
+// a force resolver acts on an entity
+// what is the relationship between a circle an entity and a renderable
+// a renderable is what will actually going to be drawn on the screen
+// a circle is an entity and has forces applied to it directly
+// does a renderable need to be updated?
+//Arguably not but then I have to give entities to the renderer which seems backwards
+// The render loop just calls update.
+// maybe the renderer should be called something else?
+
+// What do I need to do
+// world has it's own state the values there should not correspond directly to screen coords
+// so I want to 1 update all my objects then once the object is updated take that and render it to the screen.
+// so the thing that has my loop should do nothing else except update the world.
+// the worlds should update each object and render it to the canvas.
+// that is a refactor though.
+// so world has entities the main loop tells the world to update and that updates each object
+// each object as part of it's update draws itself to the canvas
+// so the rendere presumably it's job is to scale the world so it fits on the screen for now one to one will do
