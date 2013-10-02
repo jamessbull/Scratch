@@ -74,7 +74,6 @@ jim.movement.forceResolver.create = function (accelerationCalculator, velocityCa
         return total;
     };
     return {
-        nextPosition: function () {return point},
         addForce: function (force) {
             forces[force.name] = force.value;
         },
