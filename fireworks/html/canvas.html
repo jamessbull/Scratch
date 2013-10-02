@@ -24,7 +24,7 @@
 	<script>
         var canvasElement = $('#mainCanvas')[0];
         var canvas = jim.canvas.create(canvasElement);
-		
+		var context = canvasElement.getContext('2d');
 		var green = jim.colour.create(0, 255, 0, 255);
 		var blue = jim.colour.create(0, 0, 255, 255);
         var renderer = jim.display.renderer.create(canvasElement)
@@ -40,8 +40,9 @@
 
         canvas.onMouseDown(function (event) {
             var c = jim.colour.create(230,0,0,255);
-            var greenCircle = jim.circle.create(50, canvas, c, forceResolver);
-            greenCircle.setPosition(Math.random()*500, 100);
+            var greenCircle = jim.circle.create(50, c, context, forceResolver);
+            greenCircle.x = Math.random()*500;
+            greenCircle.y = 100;
             renderer.add(greenCircle);
             forceResolver.addForce(initialForce);
         });
@@ -49,10 +50,14 @@
             forceResolver.removeForce(initialForce);
         });
 
-		var greenCircle = jim.circle.create(50, canvas, green, forceResolver);
-        greenCircle.setPosition(250, 250);
-		var blueCircle = jim.circle.create(25, canvas, blue, forceResolver);
-        blueCircle.setPosition(250, 250);
+		var greenCircle = jim.circle.create(50, green, context, forceResolver);
+        greenCircle.x = 250;
+        greenCircle.y = 250;
+
+		var blueCircle = jim.circle.create(25, blue, context, forceResolver);
+        blueCircle.x = 250;
+        blueCircle.y = 250;
+
         renderer.add(greenCircle);
         renderer.add(blueCircle);
         renderer.beginRenderLoop();

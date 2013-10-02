@@ -21,7 +21,7 @@ jim.util = {
 };
 
 jim.circle = {
-	create: function (diameter, canvas, colour, forceResolver) {
+	create: function (diameter, colour, context, forceResolver) {
 		var data = [];
         var x = 0;
         var y = 0;
@@ -83,11 +83,6 @@ jim.circle = {
             return m_canvas;
         };
         var display = initDisplay();
-        var setPosition = function (x,y) {
-            canvas.clearShape(this);
-            this.x = x;
-            this.y = y;
-        };
 
         var update = function(time) {
           forceResolver.applyForce(this, time);
@@ -99,12 +94,9 @@ jim.circle = {
                   this.speed = (0-this.speed)- 0.05;
               }
           }
-          canvas.draw2(this.x,this.y,display);
+          context.drawImage(display,this.x,this.y);
         };
 
-		var animate = function () {
-           animator.animate(this);
-		};
 
 		return {
 			x:x,
@@ -114,19 +106,6 @@ jim.circle = {
             mass: 4,
             speed:0,
             clear: clear,
-			data: data,
-            draw2: function (x,y) {
-                this.x=x;
-                this.y=y;
-                canvas.draw2(x,y,display);
-            },
-			draw: function (x, y) {
-				this.x=x;
-				this.y=y;
-				canvas.draw(this);
-			},
-            setPosition : setPosition,
-            animate:animate,
             update: update
 		};
 	}
