@@ -33,12 +33,14 @@
 
         var initialForce = {name:"initial", value: 0.0025};
         var gravity = {name:"gravity", value: -0.002};
-
+        var rCol = function () {
+            return Math.random()*256;
+        };
         var forceResolver = jim.movement.forceResolver.create(accel, speed, distance);
         forceResolver.addForce(gravity);
 
         canvas.onMouseDown(function (event) {
-            var c = jim.colour.create(230,0,0,255);
+            var c = jim.colour.create(rCol(),rCol(),rCol(),255);
             var greenCircle = jim.circle.create(50, c, forceResolver);
             greenCircle.x = Math.random()*500;
             greenCircle.y = 100;

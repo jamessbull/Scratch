@@ -22,26 +22,14 @@ jim.util = {
 
 jim.circle = {
 	create: function (diameter, colour, forceResolver) {
-		var data = [];
         var x = 0;
         var y = 0;
-		var	addPixel = function (data, colour) {
-				data.push(colour.red);
-				data.push(colour.green);
-				data.push(colour.blue);
-				data.push(colour.alpha);
-				
-		};
 
 		var numberOfPixels = diameter * diameter;
 
 		var centre = function () {
 			return (Math.floor(diameter/2) * diameter) + Math.floor(diameter / 2)
 		};
-
-        var clear = function () {
-            canvas.clearShape(this);
-        }
 
 		var indexToPoint = function ( index, length ) {
 			return index === jim.point.create(0,0) ? 0 : jim.point.create((index%length), Math.floor(index / length) )
@@ -55,30 +43,21 @@ jim.circle = {
 
 		var fullGradient = jim.gradient.create(0,diameter/2);
 
-        for(var index = 0 ; index < numberOfPixels; index++) {
-            var distanceFromCentre = currentPixelsDistanceToCentre(index, diameter);
-            var distAsPercent = fullGradient.at(distanceFromCentre);
-            colour.setColourPercent("alpha", 100-distAsPercent);
-            addPixel(data, colour);
-        }
-
         var initDisplay = function () {
             var m_canvas = document.createElement('canvas');
             m_canvas.width = diameter;
             m_canvas.height = diameter;
             var m_context = m_canvas.getContext('2d');
             var output = m_context.createImageData(diameter, diameter);
-            var tcount = 0;
-            for (var i = 0 ; i < data.length; i+=4) {
-                output.data[i] = data[i];
-                output.data[i+1] = data[i+1];
-                output.data[i+2] = data[i+2];
-                output.data[i+3] = data[i+3];
-                if(output.data[i+3] === 0) {
-                    tcount++;
-                }
+            for (var i = 0 ; i < numberOfPixels; i++) {
+                var distanceFromCentre = currentPixelsDistanceToCentre(i, diameter);
+                var distAsPercent = fullGradient.at(distanceFromCentre);
+                colour.setColourPercent("alpha", 100-distAsPercent);
+                output.data[i*4] = colour.red;
+                output.data[i*4+1] = colour.green;
+                output.data[i*4+2] = colour.blue;
+                output.data[i*4+3] = colour.alpha;
             }
-            console.log("number of pixels which are transparent = "+ tcount);
             m_context.putImageData(output, x, y);
             return m_canvas;
         };
@@ -105,7 +84,6 @@ jim.circle = {
 			height: diameter,
             mass: 4,
             speed:0,
-            clear: clear,
             update: update
 		};
 	}
