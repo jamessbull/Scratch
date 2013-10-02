@@ -21,7 +21,7 @@ jim.util = {
 };
 
 jim.circle = {
-	create: function (diameter, colour, context, forceResolver) {
+	create: function (diameter, colour, forceResolver) {
 		var data = [];
         var x = 0;
         var y = 0;
@@ -84,7 +84,7 @@ jim.circle = {
         };
         var display = initDisplay();
 
-        var update = function(time) {
+        var update = function(time, context) {
           forceResolver.applyForce(this, time);
           if(this.y>450) {
               this.y = 450;

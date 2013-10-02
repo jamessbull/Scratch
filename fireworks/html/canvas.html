@@ -40,7 +40,7 @@
 
         canvas.onMouseDown(function (event) {
             var c = jim.colour.create(230,0,0,255);
-            var greenCircle = jim.circle.create(50, c, context, forceResolver);
+            var greenCircle = jim.circle.create(50, c, forceResolver);
             greenCircle.x = Math.random()*500;
             greenCircle.y = 100;
             renderer.add(greenCircle);
@@ -50,11 +50,11 @@
             forceResolver.removeForce(initialForce);
         });
 
-		var greenCircle = jim.circle.create(50, green, context, forceResolver);
+		var greenCircle = jim.circle.create(50, green, forceResolver);
         greenCircle.x = 250;
         greenCircle.y = 250;
 
-		var blueCircle = jim.circle.create(25, blue, context, forceResolver);
+		var blueCircle = jim.circle.create(25, blue, forceResolver);
         blueCircle.x = 250;
         blueCircle.y = 250;
 

@@ -14,7 +14,7 @@ jim.display.renderer.create = function (element) {
             var render = function (timestamp) {
                 if(running){
                     context.clearRect(0,0,500,500);
-                    renderables.forEach(function (renderable) { renderable.update(timestamp - lastTimeStamp) });
+                    renderables.forEach(function (renderable) { renderable.update(timestamp - lastTimeStamp, context) });
                     lastTimeStamp = timestamp;
                     window.webkitRequestAnimationFrame(render, element);
                 }
