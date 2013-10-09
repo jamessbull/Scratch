@@ -1,67 +1,61 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Canvas test</title>
 	<meta name="author" content="James Bull">
-    <script src="../src/jim.js"></script>
-	<script src="../src/shapes/shapes.js"></script>
-	<script src="../src/gradient.js"></script>
-	<script src="../src/util/canvas.js"></script>
-	<script src="../src/shapes/colour.js"></script>
-    <script src="../src/movement/upAndDown.js"></script>
-    <script src="../src/display/Renderer.js"></script>
-	<script src="../lib/jquery1.7.js"></script>
+    <script type="text/javascript" src="../src/jim.js"></script>
+	<script type="text/javascript" src="../src/shapes/shapes.js"></script>
+	<script type="text/javascript" src="../src/gradient.js"></script>
+	<script type="text/javascript" src="../src/util/canvas.js"></script>
+	<script type="text/javascript" src="../src/shapes/colour.js"></script>
+    <script type="text/javascript" src="../src/movement/upAndDown.js"></script>
+    <script type="text/javascript" src="../src/display/Renderer.js"></script>
+	<script type="text/javascript" src="../lib/jquery1.7.js"></script>
 </head>
 <body>
 	<H1>An example</H1>
 	<canvas id="mainCanvas" width="500" height="500" style="background-color: #000;">
 		
 	</canvas>
-	<script>
+	<script type="text/javascript">
         var canvasElement = $('#mainCanvas')[0];
         var canvas = jim.canvas.create(canvasElement);
 		var context = canvasElement.getContext('2d');
 		var green = jim.colour.create(0, 255, 0, 255);
 		var blue = jim.colour.create(0, 0, 255, 255);
-        var renderer = jim.display.renderer.create(canvasElement)
+        var renderer = jim.display.renderer.create(canvasElement);
         var accel =  jim.movement.acceleration.create(0,0);
         var distance =  jim.movement.distance.create(0,0,0);
         var speed =  jim.movement.velocity.create(0,0,0);
 
-        var initialForce = {name:"initial", value: 0.0025};
-        var gravity = {name:"gravity", value: -0.002};
+        //var initialForce = {name:"initial", value: 0.0025};
+        var initialForce = jim.movement.force.create({magnitude:0.0025, direction : 80, name: "initial"});
+        var gravity = jim.movement.force.create({magnitude:0.002, direction : 270, name: "gravity"});
+        //var gravity = {name:"gravity", value: -0.002};
         var rCol = function () {
             return Math.random()*256;
         };
-        var forceResolver = jim.movement.forceResolver.create(accel, speed, distance);
+        //accel, speed, distance
+        var forceResolver = jim.movement.forceResolver2.create();
         forceResolver.addForce(gravity);
 
         canvas.onMouseDown(function (event) {
             var c = jim.colour.create(rCol(),rCol(),rCol(),255);
-            var greenCircle = jim.circle.create(50, c, forceResolver);
-            greenCircle.x = Math.random()*500;
-            greenCircle.y = 100;
-            renderer.add(greenCircle);
+            var circle = jim.circle.create(50, c, forceResolver,10000);
+            circle.x = Math.random()*500;
+            circle.y = 50;
+            renderer.add(circle);
             forceResolver.addForce(initialForce);
         });
         canvas.onMouseUp(function (event) {
             forceResolver.removeForce(initialForce);
         });
 
-		var greenCircle = jim.circle.create(50, green, forceResolver);
-        greenCircle.x = 250;
-        greenCircle.y = 250;
-
-		var blueCircle = jim.circle.create(25, blue, forceResolver);
-        blueCircle.x = 250;
-        blueCircle.y = 250;
-
-        renderer.add(greenCircle);
-        renderer.add(blueCircle);
         renderer.beginRenderLoop();
 	</script>
 </body>
 </html>
+
+
