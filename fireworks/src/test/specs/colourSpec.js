@@ -5,7 +5,7 @@ describe("A color should be", function () {
 		    green = 25,
 		    blue = 25,
             colour = jim.colour.create(red, green, blue, 255);
-		colour.setLightness(100);
-		expect(colour.red).toBe(2);
+
+		expect(colour.red).toBe(125);
     });
 });

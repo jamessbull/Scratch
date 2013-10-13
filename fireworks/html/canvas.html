@@ -8,7 +8,6 @@
     <script type="text/javascript" src="../src/jim.js"></script>
 	<script type="text/javascript" src="../src/shapes/shapes.js"></script>
 	<script type="text/javascript" src="../src/gradient.js"></script>
-	<script type="text/javascript" src="../src/util/canvas.js"></script>
 	<script type="text/javascript" src="../src/shapes/colour.js"></script>
     <script type="text/javascript" src="../src/movement/upAndDown.js"></script>
     <script type="text/javascript" src="../src/display/Renderer.js"></script>
@@ -17,42 +16,32 @@
 <body>
 	<H1>An example</H1>
 	<canvas id="mainCanvas" width="500" height="500" style="background-color: #000;">
-		
+
 	</canvas>
 	<script type="text/javascript">
-        var canvasElement = $('#mainCanvas')[0];
-        var canvas = jim.canvas.create(canvasElement);
-		var context = canvasElement.getContext('2d');
-		var green = jim.colour.create(0, 255, 0, 255);
-		var blue = jim.colour.create(0, 0, 255, 255);
-        var renderer = jim.display.renderer.create(canvasElement);
-        var accel =  jim.movement.acceleration.create(0,0);
-        var distance =  jim.movement.distance.create(0,0,0);
-        var speed =  jim.movement.velocity.create(0,0,0);
-
-        //var initialForce = {name:"initial", value: 0.0025};
-        var initialForce = jim.movement.force.create({magnitude:0.0025, direction : 80, name: "initial"});
-        var gravity = jim.movement.force.create({magnitude:0.002, direction : 270, name: "gravity"});
-        //var gravity = {name:"gravity", value: -0.002};
-        var rCol = function () {
-            return Math.random()*256;
-        };
-        //accel, speed, distance
-        var forceResolver = jim.movement.forceResolver2.create();
+        var canvasElement = $('#mainCanvas')[0],
+            renderer = jim.display.renderer.create(canvasElement),
+            initialForce = jim.movement.force.create({magnitude:0.0025, direction : 80, name: "initial"}),
+            gravity = jim.movement.force.create({magnitude:0.002, direction : 270, name: "gravity"}),
+            rCol = function () {
+                return Math.random() * 256;
+            },
+            forceResolver = jim.movement.forceResolver2.create(),
+            createCircleOfRandomLocationAndColour = function (event) {
+                var c = jim.colour.create(rCol(),rCol(),rCol(),255);
+                var circle = jim.circle.create(50, c, forceResolver, 10000);
+                circle.x = Math.random()*500;
+                circle.y = 50;
+                renderer.add(circle);
+                forceResolver.addForce(initialForce);
+            },
+            removeInitialForce = function (event) {
+                forceResolver.removeForce(initialForce);
+            };
         forceResolver.addForce(gravity);
 
-        canvas.onMouseDown(function (event) {
-            var c = jim.colour.create(rCol(),rCol(),rCol(),255);
-            var circle = jim.circle.create(50, c, forceResolver,10000);
-            circle.x = Math.random()*500;
-            circle.y = 50;
-            renderer.add(circle);
-            forceResolver.addForce(initialForce);
-        });
-        canvas.onMouseUp(function (event) {
-            forceResolver.removeForce(initialForce);
-        });
-
+        canvasElement.addEventListener("mousedown", createCircleOfRandomLocationAndColour, false);
+        canvasElement.addEventListener("mouseup", removeInitialForce, false);
         renderer.beginRenderLoop();
 	</script>
 </body>
