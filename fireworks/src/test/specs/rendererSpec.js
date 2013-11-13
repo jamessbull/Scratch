@@ -2,7 +2,7 @@ describe("The renderer", function () {
 
     "use strict";
     it("should call update on objects added to it ", function () {
-        var renderer = jim.display.renderer.create(document.createElement('canvas')),
+        var renderer = jim.display.renderer.create(document.createElement('canvas'), jim.events.create()),
             renderable = Object.create(jim.renderObject()),
             renderable2 = Object.create(jim.renderObject());
 
@@ -17,6 +17,49 @@ describe("The renderer", function () {
         expect(renderable2.update).toHaveBeenCalled();
 
         renderer.endRenderLoop();
+    });
+    it("should respond to expired events and remove elements with matching ids from the render list", function () {
+        var events = jim.events.create(),
+            renderer,
+            r1 = jim.renderObject(),
+            r2 = jim.renderObject();
+        renderer = jim.display.renderer.create(document.createElement('canvas'), events);
+        r1.id = 1;
+        r2.id = 2;
+        renderer.add(r1);
+        renderer.add(r2);
+
+        expect(renderer.renderList().length).toBe(2);
+        events.fire("expired", { id: 1 });
+        expect(renderer.renderList().length).toBe(1);
+        expect(renderer.renderList()[0].id).toBe(2);
+    });
+    it("should execute the supplied function when the age exceeds max age", function () {
+        var result = false,
+            age = jim.age.create(1000, function () { result = true; });
+
+        age.increase(500);
+        expect(result).toBe(false);
+
+        age.increase(500);
+        expect(result).toBe(false);
+
+        age.increase(1);
+        expect(result).toBe(true);
+    });
+
+    it("should fire the specified event at the appropriate time", function () {
+        var result = false,
+            source = "none",
+            events = jim.events.create(),
+            timedEvent = jim.events.createTimedEvent(events, "foo", 499);
+        events.on("foo", function (arg) {
+            result = true;
+            source = arg.foo;
+        });
+        timedEvent.update(500, {foo: "set"});
+        expect(source).toBe("set");
+        expect(result).toBe(true);
     });
 
     var times = function (times, f) {

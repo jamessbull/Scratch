@@ -103,7 +103,8 @@ jim.circle = {
             mass : mass,
             xSpeed : xSpeed,
             ySpeed : ySpeed,
-            update : update
+            update : update,
+            dead : false
 		};
 	}
 };

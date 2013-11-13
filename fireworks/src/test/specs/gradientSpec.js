@@ -19,18 +19,6 @@ describe("A linear colour gradient", function () {
 	    });
 	});
 
-    it("should have the first value as the from colour", function () {
-		var gradient = jim.colour.gradient.create(colour1, colour2),
-            result = gradient.at(0);
-        expect(result).toBeColour(colour1);
-    });
-
-	it("should have the first value as the from colour", function () {
-		var gradient = jim.colour.gradient.create(colour1, colour2),
-            result = gradient.at(0);
-        expect(result).toBeColour(colour1);
-    });
-
 	it("should calculate what percent a number is between two other numbers", function () {
 		var linearGradient = jim.gradient.create(10, 60);
 		expect(linearGradient.at(35)).toBe(50);

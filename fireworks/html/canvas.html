@@ -11,6 +11,8 @@
 	<script type="text/javascript" src="../src/shapes/colour.js"></script>
     <script type="text/javascript" src="../src/movement/upAndDown.js"></script>
     <script type="text/javascript" src="../src/display/Renderer.js"></script>
+    <script type="text/javascript" src="../src/events/events.js"></script>
+    <script type="text/javascript" src="../src/particle.js"></script>
 	<script type="text/javascript" src="../lib/jquery1.7.js"></script>
 </head>
 <body>
@@ -20,31 +22,63 @@
 	</canvas>
 	<script type="text/javascript">
         var canvasElement = $('#mainCanvas')[0],
-            renderer = jim.display.renderer.create(canvasElement),
-            initialForce = jim.movement.force.create({magnitude:0.0025, direction : 80, name: "initial"}),
-            gravity = jim.movement.force.create({magnitude:0.002, direction : 270, name: "gravity"}),
+            events = jim.events.create(),
+
+            renderer = jim.display.renderer.create(canvasElement, events),
+            removeForce2 = jim.events.createTimedEvent(events, "removeForce", 15000000),
+            gravity = jim.movement.force.create({magnitude:0.002, direction : 270, name: "gravity", age: removeForce2, evento:events}),
             rCol = function () {
                 return Math.random() * 256;
             },
-            forceResolver = jim.movement.forceResolver2.create(),
-            createCircleOfRandomLocationAndColour = function (event) {
-                var c = jim.colour.create(rCol(),rCol(),rCol(),255);
-                var circle = jim.circle.create(50, c, forceResolver, 10000);
-                circle.x = Math.random()*500;
-                circle.y = 50;
-                renderer.add(circle);
-                forceResolver.addForce(initialForce);
-            },
-            removeInitialForce = function (event) {
-                forceResolver.removeForce(initialForce);
-            };
-        forceResolver.addForce(gravity);
+            forceResolver = jim.movement.forceResolver2.create(events),
+            id = 0,
+            particleFactory = jim.particle.particleFactory.create(jim.movement.forceResolver2, jim.events, jim.circle, jim.movement.force, events, gravity, renderer),
+            createFirework = function (event) {
+                var col = jim.colour.create,
+                    c = col(255,125,125,255),
+                    red = col(255, 0, 0, 255),
+                    green = col(0, 255, 0, 255),
+                    blue = col(0, 0, 255, 255),
+                    p = particleFactory.particle(id+=1, 10, c, 250, 450, 0.0035, 90, 900,900,0),
 
-        canvasElement.addEventListener("mousedown", createCircleOfRandomLocationAndColour, false);
-        canvasElement.addEventListener("mouseup", removeInitialForce, false);
+                    onBoom = function () {
+                        noOfParticles = 36;
+                        while(noOfParticles--) {
+                            particleFactory.particle(id+=1, 12, red, p.x, p.y, 0.03, noOfParticles*10, 10, 1300, p.ySpeed);
+                        }
+                    };
+                events.delay(onBoom, 900, "initial explosion delay");
+            };
+
+        canvasElement.addEventListener("mousedown", createFirework, false);
         renderer.beginRenderLoop();
 	</script>
 </body>
 </html>
 
+// Thoughts on rendering a firework. create new objects remove old ones from renderer?
+// Have a fixed number of objects / create them up front and reuse them as they move off screen
+// Next stories fire one small white/orange right up and have it removed after 1 - 2 seconds
+// Test? So each entity has an age which current age and max age once an entity reaches max age
+// it is removed from the renderer so object
+//age = jim.age.create(3000, events, "removeForce", initialForce),
+//age2 = jim.age.create(100000000, events, "removeForce", initialForce),
+// so the entity updates the timed events it is given
+// so the force needs a timed event associated with it
+// so forces are applied to entities but at the moment
+// the force resolver is given the forces at construction time
+// I think ultimately the entity should have the forces
+// right now though the resolver has them so makr the resolver call update on the forces
+// so the entity calles update on the resolver
+// or how easy is it to pull the dorces out of the resolver and pass them in
+// is it the case that this is an event and the frame is an event.
+// so I think that do update methods ot get it going and then refactor to events
+
+// so for update
+// entity calls update on forceresolver
+// fr call update on forces
+// forces raise an event
+//force resolver removes them?
+
+// ok so to do it properly updates become an event
 

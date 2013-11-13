@@ -93,7 +93,8 @@ jim.movement.force.create = function (options) {
         verticalComponent = round(options.magnitude * Math.sin(radians), 8);
     }
 
-    return {
+    var force = {
+        dead: false,
         horizontal: function () { return horizontalComponent; },
         vertical: function () { return verticalComponent; },
         name: function () { return options.name; },
@@ -101,29 +102,31 @@ jim.movement.force.create = function (options) {
             return jim.movement.force.create({x: this.horizontal() + f.horizontal(), y: this.vertical() + f.vertical()});
         }
     };
+    force.eventId = id;
+    return force;
 };
 
 jim.movement.forceResolver2.create = function () {
     "use strict";
-    var forces = {},
+    var forces = [],
         totalForce = function () {
             var finalForce = jim.movement.force.create({x: 0, y: 0}),
-                k;
+                newArr = [];
 
-            for (k in forces) {
-                if (Object.prototype.hasOwnProperty.call(forces, k)) {
-                    finalForce = finalForce.add(forces[k]);
+            forces.forEach(function (f) {
+                if (!f.dead) {
+                    newArr.push(f);
+                    finalForce = finalForce.add(f);
                 }
-            }
+            });
+            forces = newArr;
             return finalForce;
         };
 
+
     return {
         addForce: function (f) {
-            forces[f.name()] = f;
-        },
-        removeForce: function (f) {
-            delete forces[f.name()];
+            forces.push(f);
         },
         resolve: function (subject) {
             var ax = jim.movement.acceleration.create(0, 0),
@@ -131,12 +134,13 @@ jim.movement.forceResolver2.create = function () {
                 vx = jim.movement.velocity.create(0, 0),
                 vy = jim.movement.velocity.create(0, 0),
                 sx = jim.movement.distance.create(0, 0),
-                sy = jim.movement.distance.create(0, 0);
+                sy = jim.movement.distance.create(0, 0),
+                total = totalForce();
 
-            ax.setF(totalForce().horizontal());
+            ax.setF(total.horizontal());
             ax.setM(subject.mass);
 
-            ay.setF(totalForce().vertical());
+            ay.setF(total.vertical());
             ay.setM(subject.mass);
 
             sx.setU(subject.xSpd);
@@ -163,7 +167,7 @@ jim.movement.forceResolver2.create = function () {
             };
         },
         noOfForces : function () {
-            return Object.keys(forces).length;
+            return forces.length;
         }
     };
 };

@@ -1,11 +1,13 @@
 describe("Physics and movement: ", function () {
     "use strict";
     it("should be able to calculate x speed", function () {
-        var resolver = jim.movement.forceResolver2.create(),
-            f = jim.movement.force.create({x: 10, y: 10, name : "force1" }),
-            result = resolver.resolve({xSpd: 5, ySpd: 5, duration: 12, mass : 2});
+        var events = jim.events.create(),
+            age = jim.age.create(100000, events, "test", "test"),
+            resolver = jim.movement.forceResolver2.create(events),
+            f = jim.movement.force.create({x: 10, y: 10, name : "force1", age: age }),
+            result;
         resolver.addForce(f);
-
+        result = resolver.resolve({xSpd: 5, ySpd: 5, duration: 12, mass : 2});
         expect(result.xSpeed).toBe(65);
         expect(result.ySpeed).toBe(65);
 
@@ -14,64 +16,12 @@ describe("Physics and movement: ", function () {
 
     });
 
-    it("the first location given should be the starting location", function () {
-        var a =  jim.movement.acceleration.create(0, 0),
-            distance =  jim.movement.distance.create(0, 0, 0),
-            speed =  jim.movement.velocity.create(0, 0, 0),
-            subject = {
-                mass: 4,
-                x: 200,
-                y: 200,
-                speed: 0
-            },
-            forceResolver,
-            initialForce = {name: "initial", value: 60},
-            gravity = {name: "gravity", value: -10 * subject.mass};
-
-        spyOn(a, 'value').andReturn(5);
-        spyOn(a, 'setF');
-        spyOn(a, 'setM');
-
-        spyOn(speed, 'value').andReturn(10);
-        spyOn(speed, 'setU');
-        spyOn(speed, 'setA');
-        spyOn(speed, 'setT');
-
-        spyOn(distance, 'value').andReturn(15);
-        spyOn(distance, 'setU');
-        spyOn(distance, 'setA');
-        spyOn(distance, 'setT');
-
-        forceResolver = jim.movement.forceResolver.create(a, speed, distance);
-        forceResolver.addForce(initialForce);
-        forceResolver.addForce(gravity);
-        forceResolver.applyForce(subject, 16);
-
-        expect(subject.y).toBe(185);
-        expect(subject.speed).toBe(10);
-
-        expect(a.setF).toHaveBeenCalledWith(20);
-        expect(a.setM).toHaveBeenCalledWith(4);
-
-        expect(speed.value).toHaveBeenCalled();
-        expect(speed.setU).toHaveBeenCalledWith(0);
-        expect(speed.setA).toHaveBeenCalledWith(a);
-        expect(speed.setT).toHaveBeenCalledWith(16);
-
-        expect(distance.value).toHaveBeenCalled();
-        expect(distance.setU).toHaveBeenCalledWith(0);
-        expect(distance.setA).toHaveBeenCalledWith(a);
-        expect(distance.setT).toHaveBeenCalledWith(16);
-
-    });
-
     it("can add and remove forces", function () {
-        var a =  jim.movement.acceleration.create(0, 0),
-            distance =  jim.movement.distance.create(0, 0, 0),
-            speed =  jim.movement.velocity.create(0, 0, 0),
-            initialForce = {name: "initial", value: 60},
-            gravity = {name: "gravity", value: -10 * 4},
-            forceResolver = jim.movement.forceResolver.create(a, speed, distance);
+        var events = jim.events.create(),
+            age = jim.age.create(100000, events, "test", "test"),
+            initialForce = jim.movement.force.create({x: 10, y: 10, name : "initial", age: age }),
+            gravity = jim.movement.force.create({x: 10, y: 10, name : "gravity", age: age }),
+            forceResolver = jim.movement.forceResolver2.create(events);
 
         forceResolver.addForce(initialForce);
         forceResolver.addForce(gravity);
